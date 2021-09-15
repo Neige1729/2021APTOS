@@ -9,7 +9,7 @@ from tensorflow.keras.optimizers import Adam
 
 col_x = ["gender", "age", "diagnosis", "preVA", "anti-VEGF"]
 # col_y = ["preCST", "VA", "continue injection", "CST", "IRF", "SRF", "HRF"]
-col_y = ["continue injection"]
+col_y = ["HRF"]
 
 if __name__ == '__main__':
     df = pd.read_csv("TrainingImputed.csv")
@@ -80,6 +80,9 @@ if __name__ == '__main__':
 
     model.save("model_v0")
 
-    # to_predict = pd.read_csv("PreliminaryValidationSet_Info.csv")
-    # r = model.predict(to_predict.values)
-    # print(r)
+    to_predict = pd.read_csv("PreliminaryValidationSet_Info.csv")
+    p = model.predict(to_predict[col_x].values)
+    r = np.argmax(p, axis=1)
+    dataframe = pd.DataFrame({'HRF': r})
+    dataframe.to_csv("temp.csv", index=False, sep=',')
+    print(r)

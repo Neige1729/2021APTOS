@@ -33,6 +33,12 @@ if __name__ == '__main__':
 
     model = Sequential()
     model.add(Input(shape=5))
+    model.add(Dense(1024, activation=loss))
+    model.add(BatchNormalization())
+    model.add(Dropout(0.3))
+    model.add(Dense(512, activation=loss))
+    model.add(BatchNormalization())
+    model.add(Dropout(0.3))
     model.add(Dense(256, activation=loss))
     model.add(BatchNormalization())
     model.add(Dropout(0.3))
@@ -48,6 +54,9 @@ if __name__ == '__main__':
     model.add(Dense(16, activation=loss))
     model.add(BatchNormalization())
     model.add(Dropout(0.3))
+    model.add(Dense(8, activation=loss))
+    model.add(BatchNormalization())
+    model.add(Dropout(0.3))
     model.add(Dense(2, activation="softmax"))
 
     model.compile(optimizer=Adam(), loss=tf.keras.losses.BinaryCrossentropy(),
@@ -55,7 +64,7 @@ if __name__ == '__main__':
 
     model.summary()
 
-    history = model.fit(x=x, y=y, batch_size=32, epochs=250, validation_split=0.2)
+    history = model.fit(x=x, y=y, batch_size=32, epochs=200, validation_split=0.2)
 
     acc = history.history['accuracy']
     val_acc = history.history['val_accuracy']
@@ -83,6 +92,6 @@ if __name__ == '__main__':
     to_predict = pd.read_csv("PreliminaryValidationSet_Info.csv")
     p = model.predict(to_predict[col_x].values)
     r = np.argmax(p, axis=1)
-    dataframe = pd.DataFrame({'HRF': r})
+    dataframe = pd.DataFrame({"HRF": r})
     dataframe.to_csv("temp.csv", index=False, sep=',')
     print(r)

@@ -6,9 +6,9 @@ from scipy.interpolate import make_interp_spline
 
 CANNY_VALUE = 98
 '''
-图片中 50 像素 = 200 um
+图片中 49 像素 = 200 um
 '''
-UM_PER_PIXEL = 4
+UM_PER_PIXEL = 200 / 49
 
 
 def canny_show(img):
@@ -77,9 +77,19 @@ if __name__ == '__main__':
     plt.scatter([i for i in range(len(delta_h))], delta_h)
     plt.show()
 
-    # delta_h = delta_h[50:150]  # 只取中间
+    delta_h = delta_h[150:250]  # 只取中间
     delta_h.sort()
-    r = sum(delta_h[10:40]) / 30
+    might = delta_h[:50]
+
+    #  最小二乘法拟合
+    r = 0
+    min_sq = float("Inf")
+    for i in (might[0], might[-1]):
+        sq = sum((i-j)**2 for j in might)
+        if sq < min_sq:
+            min_sq = sq
+            r = i
+
     r = r * UM_PER_PIXEL
     print("result:", r)
     print("0000-0004L	1	59	6	0.06	0	222	0	0	0	0	0	0	221")

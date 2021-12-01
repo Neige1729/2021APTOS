@@ -12,7 +12,7 @@ col_x = ["gender", "age", "diagnosis", "preVA", "anti-VEGF"]
 col_y = ["HRF"]
 
 if __name__ == '__main__':
-    df = pd.read_csv("TrainingImputed.csv")
+    df = pd.read_csv("data/TrainingImputed.csv")
 
     # load x
     x = df[col_x].values
@@ -89,7 +89,7 @@ if __name__ == '__main__':
 
     model.save("model_v0")
 
-    to_predict = pd.read_csv("PreliminaryValidationSet_Info.csv")
+    to_predict = pd.read_csv("data/PreliminaryValidationSet_Info.csv")
     p = model.predict(to_predict[col_x].values)
     r = np.argmax(p, axis=1)
     dataframe = pd.DataFrame({"HRF": r})

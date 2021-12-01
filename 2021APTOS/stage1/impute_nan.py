@@ -17,7 +17,7 @@ pd.set_option('display.max_rows', None)
 # 设置value的显示长度为100，默认为50
 pd.set_option('max_colwidth', 100)
 
-csv_data_path = "TrainingAnnotation.csv"
+csv_data_path = "data/TrainingAnnotation.csv"
 batch_size = 128
 
 
